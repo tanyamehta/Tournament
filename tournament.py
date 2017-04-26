@@ -13,9 +13,9 @@ def connect():
         print("<error message>")
 
 
-def select(query_PASSED):
+def select(query):
     DB, cursor = connect()
-    cursor.execute(query_PASSED)
+    cursor.execute(query)
     v = cursor.fetchall()
     cursor.close()
     DB.close()
@@ -25,7 +25,7 @@ def select(query_PASSED):
 def deleteMatches():
     """Remove all the match records from the database."""
     DB, cursor = connect()
-    q = "TRUNCATE " + "match_tournament"
+    q = "TRUNCATE " + "matchtournament"
     cursor.execute(q)
     DB.commit()
     cursor.close()
@@ -35,7 +35,7 @@ def deleteMatches():
 def deletePlayers():
     """Remove all the player records from the database."""
     DB, cursor = connect()
-    q = "TRUNCATE " + "player_tournament"
+    q = "TRUNCATE " + "playertournament"
     cursor.execute(q)
     DB.commit()
     cursor.close()
@@ -44,7 +44,7 @@ def deletePlayers():
 
 def countPlayers():
     """Returns the number of player_tournament currently registered."""
-    query = """SELECT count(*) FROM player_tournament"""
+    query = """SELECT count(*) FROM playertournament"""
     r = select(query)
     return int(r[0][0])
 
@@ -57,7 +57,7 @@ def registerPlayer(name):
       name: the player's full name (need not be unique).
     """
     if name:
-        q = "INSERT INTO player_tournament(name) VALUES(%s)"
+        q = "INSERT INTO playertournament(name) VALUES(%s)"
         DB, cursor = connect()
         cursor.execute(q, (name,))
         DB.commit()
@@ -89,7 +89,7 @@ def reportMatch(winner, loser):
       loser:  the id number of the player who lost
     """
     DB, cursor = connect()
-    query = "INSERT INTO match_tournament(winner,loser) VALUES(%s,%s)"
+    query = "INSERT INTO matchtournament(winner,loser) VALUES(%s,%s)"
     cursor.execute(query, (winner, loser))
     DB.commit()
     DB.close()
