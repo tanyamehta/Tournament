@@ -13,7 +13,15 @@ def connect():
         print("<error message>")
 
 
-
+def select(query_PASSED):
+    DB, cursor = connect()
+    cursor.execute(query_PASSED)
+    v = cursor.fetchall()
+    cursor.close()
+    DB.close()
+    return v
+        
+        
 def deleteMatches():
     """Remove all the match records from the database."""
     DB, cursor = connect()
