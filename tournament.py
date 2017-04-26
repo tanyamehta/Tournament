@@ -32,16 +32,7 @@ def deletePlayers():
     DB.commit()
     cursor.close()
     DB.close()
-
-def select(query_PASSED):
-    DB, cursor = connect()
-    cursor.execute(query_PASSED)
-    v = cursor.fetchall()
-    cursor.close()
-    DB.close()
-    return v
-
-
+    
 
 def countPlayers():
     """Returns the number of player_tournament currently registered."""
@@ -109,11 +100,14 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
+    DB, cursor = connect()
     pairList = []
     totalPairs = countPlayers()
     for pair in xrange(0, totalPairs, 2):
         query = """SELECT p_id,name FROM rankings ORDER BY wins
         LIMIT 2 OFFSET """ + str(pair)
+        cursor.execute(query)
+        result = cursor.fetchall()
         result = select(query)
         result = (result[0]+result[1])
         pairList.append(result)
