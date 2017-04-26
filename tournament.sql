@@ -5,16 +5,16 @@ CREATE DATABASE tournament;
 \c tournament;
 
 
-CREATE TABLE match_tournament(
+CREATE TABLE matchtournament(
     m_id SERIAL PRIMARY KEY,
     loser INTEGER,
     winner INTEGER
 );
 
 
-CREATE TABLE player_tournament(
+CREATE TABLE playertournament(
     p_id SERIAL PRIMARY KEY,
     name TEXT
 ); 
 
-CREATE VIEW rankings AS SELECT p_id,name, (SELECT count(*) FROM match_tournament WHERE player_tournament.p_id = match_tournament.winner) AS wins, (SELECT count(*) FROM match_tournament WHERE player_tournament.p_id IN (match_tournament.loser,match_tournament.winner)) AS played FROM player_tournament ORDER BY wins DESC;
+CREATE VIEW rankings AS SELECT p_id,name, (SELECT count(*) FROM matchtournament WHERE playertournament.p_id = matchtournament.winner) AS wins, (SELECT count(*) FROM matchtournament WHERE playertournament.p_id IN (matchtournament.loser,matchtournament.winner)) AS played FROM playertournament ORDER BY wins DESC;
